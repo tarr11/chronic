@@ -412,6 +412,11 @@ module Chronic
       grabber = Grabber.new(:this)
       pointer = :future
 
+      # just a scalar with no other tokens is probably not a date
+      if tokens.length == 1 && tokens.first.tags.select{|a| a.is_a?(Scalar)}.length > 0
+        return nil
+      end
+
       repeaters = get_repeaters(tokens)
       repeaters.size.times { tokens.pop }
 
